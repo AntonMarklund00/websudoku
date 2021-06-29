@@ -1,4 +1,4 @@
-package helper;
+package com.sudoku.helper;
 
 import java.util.Random;
 

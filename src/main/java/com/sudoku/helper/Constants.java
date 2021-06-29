@@ -1,4 +1,4 @@
-package helper;
+package com.sudoku.helper;
 
 public interface Constants {
     String ANSI_RESET = "\u001B[0m";

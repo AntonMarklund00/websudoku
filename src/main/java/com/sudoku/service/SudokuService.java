@@ -1,7 +1,7 @@
-package service;
+package com.sudoku.service;
 
-import helper.Constants;
-import helper.Randomizer;
+import com.sudoku.helper.Constants;
+import com.sudoku.helper.Randomizer;
 import org.json.simple.JSONArray;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
