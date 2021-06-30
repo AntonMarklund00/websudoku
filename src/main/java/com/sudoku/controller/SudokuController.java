@@ -20,7 +20,7 @@ public class SudokuController {
     }
 
     @PostMapping("/get/solved/board")
-    public int[][] getSolvedBoard(@RequestBody int[][] board){
-        return sudokuService.solve(board);
+    public int[][] solveBoard(@RequestBody int[][] board){
+        return sudokuService.solveBoard(board);
     }
 }

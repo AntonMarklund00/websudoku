@@ -82,7 +82,7 @@ public class SudokuService implements Constants {
 		return false;
 	}
 
-	public int[][] solve(int[][] incomming){
+	public int[][] solveBoard(int[][] incomming){
         setIncomingBoard(incomming);
         if (solver()){
             return board;
@@ -90,7 +90,7 @@ public class SudokuService implements Constants {
         return null;
     }
 
-    public boolean solver(){
+     private boolean solver(){
         for (int i = 0; i < SIZE; i++) {
             for (int j = 0; j < SIZE; j++) {
                 if(board[i][j] == EMPTY){
