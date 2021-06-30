@@ -16,17 +16,17 @@ import java.nio.file.Paths;
 @Service
 public class SudokuService implements Constants {
 
-    private static int[][] board = new int[SIZE][SIZE];
+    private static int[][] board;
 
-    public void createBoard(int[][] incomingBoard){
+    public void setIncomingBoard(int[][] incomingBoard){
         board = new int[SIZE][SIZE];
         for (int i = 0; i < SIZE; i++) {
             for (int j = 0; j < SIZE; j++) {
                 board[i][j] = incomingBoard[i][j];
             }
-        } 
+        }
     }
-    
+
     public static int[][] readFromFile() {
         int[][] newBoard = new int[SIZE][SIZE];
         JSONParser parser = new JSONParser();
@@ -50,11 +50,11 @@ public class SudokuService implements Constants {
         return null;        
     }
 
-    private boolean checkIfCorrect(int row, int col, int number){
-        return !isInRow(row, number)  &&  !isInCol(col, number)  &&  !isInBox(row, col, number);
+    private boolean checkIfCorrect(int[][] board, int row, int col, int number){
+        return !isInRow(board, row, number)  &&  !isInCol(board, col, number)  &&  !isInBox(board, row, col, number);
     }
 
-    private boolean isInRow(int row, int number) {
+    private boolean isInRow(int[][] board,int row, int number) {
 		for (int i = 0; i < SIZE; i++)
 			if (board[row][i] == number)
 				return true;
@@ -62,7 +62,7 @@ public class SudokuService implements Constants {
 		return false;
 	}
 	
-	private boolean isInCol(int col, int number) {
+	private boolean isInCol(int[][] board, int col, int number) {
 		for (int i = 0; i < SIZE; i++)
 			if (board[i][col] == number)
 				return true;
@@ -70,7 +70,7 @@ public class SudokuService implements Constants {
 		return false;
 	}
 	
-	private boolean isInBox(int row, int col, int number) {
+	private boolean isInBox(int[][] board, int row, int col, int number) {
 		int r = row - row % 3;
 		int c = col - col % 3;
 		
@@ -82,34 +82,32 @@ public class SudokuService implements Constants {
 		return false;
 	}
 
+	public int[][] solve(int[][] incomming){
+        setIncomingBoard(incomming);
+        if (solver()){
+            return board;
+        }
+        return null;
+    }
+
     public boolean solver(){
         for (int i = 0; i < SIZE; i++) {
             for (int j = 0; j < SIZE; j++) {
                 if(board[i][j] == EMPTY){
                     for (int number = 1; number <= SIZE; number++) {
-                        if(checkIfCorrect(i, j, number)){
+                        if(checkIfCorrect(board, i, j, number)){
                             board[i][j] = number;
-
                             if(solver()){
                                 return true;
                             }else{
                                 board[i][j] = EMPTY;
                             }
-                        } 
+                        }
                     }
-                    return false;          
+                    return false;
                 }
             }
         }
         return true;
     }
-
-    public void display() {
-		for (int i = 0; i < SIZE; i++) {
-            String row = "";
-			for (int j = 0; j < SIZE; j++) {
-                row += "%-2d".formatted(board[i][j]);
-			}
-		}
-	}
 }
